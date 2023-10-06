@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html >
+<!--From https://codepen.io/frytyler/pen/EGdtg-->
+<head>
+  <meta charset="UTF-8">
+  <title>ML API</title>
+  <style>
+    label{
+    width:400px;
+    display:inline-block;
+    font-style: arial bold;
+    font-size:30pt;
+    color:red;
+  }
+  input{
+    font-size: 15pt;
+    width: 200px;
+    background-color:blanchedalmond;
+  }
+  button{
+    width: 200px;
+    height: 50px;
+    background:green;
+    color:white;
+    font-size: xx-large;
+  }
+  body{
+    background-color: aquamarine;
+    font-style: arial bold;
+    background-size: 1500px ;
+    background-image:url("https://images.pexels.com/photos/323705/pexels-photo-323705.jpeg?cs=srgb&dl=apartment-apartment-building-architecture-323705.jpg&fm=jpg");
+    
+  }
+  h1{
+    color: black; 
+    font-size:40pt;
+    font-style:Algerian;
+  }
+  p{
+    color:black;
+    font-size: 36pt; 
+    background-color: aqua;
+  }
+  select {
+    width: 210px;
+    height:32px;
+    font-size: 20pt;
+    background-color: beige;
+   
+
+  }
+  
+  </style>
+  
+   <script type="text/javascript">
+    function populate(slct1,slct2)
+    {
+        var h1 = document.getElementById(slct1);
+        var h2 = document.getElementById(slct2);
+        h2.innerHTML="";
+        if(h1.value=="1")
+        {
+            var optionArray=["|","500|500","550|550","600|600","650|650","700|700","750|750","800|800","850|850","900|900","950|950","1000|1000"]
+        }
+        else if(h1.value == "2")
+        {
+            var optionArray = ["|","1|950","2|1000","3|1050","4|1100","5|1150","6|1200","7|1250","8|1300","9|1350","10|1400","11|1450","12|1500","13|1550","14|1600","15|1650","16|1700","17|1750"]
+        }
+        else if(h1.value == "3")
+        {
+            var optionArray = ["|","1|1700","2|1750","3|1800","4|1850","5|1900","6|1950","7|2000","8|2050","9|2100","10|2150","11|2200","12|2250","13|2300","14|2350","15|2400","16|2450","17|2500","18|2550"]
+        }
+        else if(h1.value == "4")
+        {
+            var optionArray = ["|","1|2400","2|2450","3|2500","4|2550","5|2600","6|2650","7|2700","8|2750","9|2800","10|2850","11|2900","12|2950","13|3000","14|3050","15|3100","16|3200","17|3300"]
+        }
+
+        for( var option in optionArray)
+        {
+            var pair = optionArray[option].split("|");
+            var newoption = document.createElement("option");
+
+            
+           newoption.value =pair[0]
+           newoption.innerHTML=pair[1]
+            h2.options.add(newoption);
+
+
+        }
+    }
+
+   </script>
+   
+</head>
+
+<body>
+ <div class="login">
+  <center><h1><b>HOUSE PRICE PREDICTION</b></h1></center>
+  <hr>
+	
+
+     <!-- Main Input For Receiving Query to our ML -->
+    <form action="{{ url_for('predict')}}" method="post" align:left>
+    <center>
+        <br>
+        <div class="container">
+            <div class="f-group">
+                <label for="No.of_Bedrooms" ><b>No.of Bedrooms </b> </label>
+                <!--<input type="number" name="No.of Bedrooms" placeholder="Enter No.of bedrooms" required="required" min="1" max="4"/>-->
+                <select name="No.of Bedrooms" id="slct1" onchange="populate(this.id,'slct2')" required>
+                 <option></option>
+                 <option value="1">1</option>
+                 <option value="2">2</option>
+                 <option value="3">3</option>
+                 <option value="4">4</option>
+                </select><br><br>
+            </div>
+            <div class="f-group">
+                <label ><b>Enter area in sqft      </b></label>
+                <select name="Area" id="slct2" required></select>
+            </div>
+        </div>
+      <br><br>
+       <label><b>Parking [0/1] </b></label>
+		<select name= "Parking" required>
+            <option disabled selected hidden></option>
+            <option>0</option>
+            <option>1</option>
+        </select><br><br>
+       <label><b>Power Backup [0/1] </b></label>
+       <select name= "Power_backup" required>
+        <option disabled selected hidden></option>
+        <option>0</option>
+        <option>1</option>
+    </select><br><br>
+       <label><b>Resale [0/1] </b></label>
+       <select name= "Resale" required>
+        <option disabled selected hidden></option>
+        <option>0</option>
+        <option>1</option>
+    </select><br><br><br>
+       <button type="submit">Predict</button>
+     </center>
+    </form>
+
+   
+   <br>
+   
+ 
+   <center><p >{{ prediction}}</p> </center>
+
+ </div>
+
+
+</body>
+</html>
